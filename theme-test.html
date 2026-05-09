@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Caster — Dark Theme Variations</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+  :root {
+    --font-sans: 'Inter', -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --yes: #22C55E;
+    --yes-dim: rgba(34, 197, 94, 0.12);
+    --no: #EF4444;
+    --no-dim: rgba(239, 68, 68, 0.12);
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background: var(--bg-base);
+    color: var(--text-primary);
+    font-size: 14px;
+    line-height: 1.4;
+    overflow-x: hidden;
+  }
+
+  /* ---- Theme definitions ---- */
+  /* 1: Current neutral (control) */
+  .theme-1 { --bg-base:#0A0A0C; --bg-surface:#111113; --bg-elevated:#1A1A1D; --bg-panel:rgba(18,18,20,0.75); --bg-panel-solid:#121214; --border:#262628; --text-primary:#EDEDEF; --text-secondary:#808088; --text-tertiary:#4A4A52; --accent:#FF6B35; --accent-hover:#FF8555; --accent-dim:rgba(255,107,53,0.12); }
+  /* 2: Barely Warm — faintest orange undertone */
+  .theme-2 { --bg-base:#0B0A09; --bg-surface:#121110; --bg-elevated:#1B1918; --bg-panel:rgba(18,16,15,0.75); --bg-panel-solid:#131211; --border:#282524; --text-primary:#EDECE8; --text-secondary:#807E78; --text-tertiary:#4C4A46; --accent:#FF6B35; --accent-hover:#FF8555; --accent-dim:rgba(255,107,53,0.10); }
+  /* 3: Subtle Ember — warm brown-black */
+  .theme-3 { --bg-base:#0D0908; --bg-surface:#151110; --bg-elevated:#1E1816; --bg-panel:rgba(22,16,13,0.75); --bg-panel-solid:#151110; --border:#2C2420; --text-primary:#EDE8E4; --text-secondary:#807870; --text-tertiary:#5A4E48; --accent:#FF6B35; --accent-hover:#FF8555; --accent-dim:rgba(255,107,53,0.12); }
+  /* 8: Warm Charcoal — balanced warm gray */
+  .theme-8 { --bg-base:#0C0B0A; --bg-surface:#141312; --bg-elevated:#1D1B1A; --bg-panel:rgba(20,19,18,0.75); --bg-panel-solid:#141312; --border:#2A2826; --text-primary:#EBE8E4; --text-secondary:#807C76; --text-tertiary:#524E4A; --accent:#FF6B35; --accent-hover:#FF8555; --accent-dim:rgba(255,107,53,0.11); }
+  /* 10: Smoke & Fire — warm smoke, strong accent contrast */
+  .theme-10 { --bg-base:#0E0C0B; --bg-surface:#161413; --bg-elevated:#201D1B; --bg-panel:rgba(22,20,18,0.78); --bg-panel-solid:#161413; --border:#302C28; --text-primary:#EAE4DE; --text-secondary:#847870; --text-tertiary:#584E48; --accent:#FF6B35; --accent-hover:#FF8555; --accent-dim:rgba(255,107,53,0.18); }
+  /* 11: Sentiment Green (static preview) */
+  .theme-11 { --bg-base:#080C08; --bg-surface:#101410; --bg-elevated:#161E16; --bg-panel:rgba(14,20,14,0.75); --bg-panel-solid:#101410; --border:#1E2C1E; --text-primary:#E8EDE8; --text-secondary:#708070; --text-tertiary:#485248; --accent:#FF6B35; --accent-hover:#FF8555; --accent-dim:rgba(255,107,53,0.12); }
+  /* 12: Sentiment Red (static preview) */
+  .theme-12 { --bg-base:#0C0808; --bg-surface:#141010; --bg-elevated:#1E1616; --bg-panel:rgba(20,14,14,0.75); --bg-panel-solid:#141010; --border:#2C1E1E; --text-primary:#EDE8E8; --text-secondary:#807070; --text-tertiary:#524848; --accent:#FF6B35; --accent-hover:#FF8555; --accent-dim:rgba(255,107,53,0.12); }
+
+  /* Sentiment mode — base text/accent set here, bg vars set dynamically via JS inline styles */
+  .theme-sentiment {
+    --text-primary:#EDEDEF;
+    --accent:#FF6B35; --accent-hover:#FF8555; --accent-dim:rgba(255,107,53,0.12);
+  }
+  .theme-sentiment, .theme-sentiment * {
+    transition: background 3s ease, border-color 3s ease, background-color 3s ease;
+  }
+  /* Exclude switcher/slider from transitions */
+  .switcher, .switcher *, .sentiment-bar, .sentiment-bar * {
+    transition: none !important;
+  }
+
+  /* Sentiment slider bar */
+  .sentiment-bar {
+    display: none; align-items: center; gap: 10px;
+    padding: 8px 16px;
+    background: #000; border-bottom: 1px solid #222;
+    position: fixed; top: 40px; left: 0; right: 0; z-index: 99;
+  }
+  .sentiment-bar.visible { display: flex; }
+  .sentiment-bar label { font-size: 11px; color: #888; white-space: nowrap; }
+  .sentiment-bar input[type=range] {
+    flex: 1; height: 4px; accent-color: #FF6B35; cursor: pointer;
+  }
+  .sentiment-bar .price-display {
+    font-family: var(--font-mono); font-size: 13px; font-weight: 600;
+    min-width: 50px; text-align: center;
+  }
+  .sentiment-bar .zone-label {
+    font-size: 11px; font-weight: 500; min-width: 80px; text-align: center;
+    padding: 2px 8px; border-radius: 3px;
+  }
+  .sentiment-bar .auto-toggle {
+    font-size: 11px; padding: 3px 10px; border-radius: 4px;
+    border: 1px solid #333; background: transparent; color: #999;
+    cursor: pointer; font-family: var(--font-mono);
+  }
+  .sentiment-bar .auto-toggle.active {
+    border-color: #FF6B35; background: rgba(255,107,53,0.15); color: #FF6B35;
+  }
+
+  /* ---- Switcher bar (fixed top) ---- */
+  .switcher {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; gap: 6px;
+    padding: 8px 16px;
+    background: #000; border-bottom: 1px solid #222;
+    overflow-x: auto;
+  }
+  .switcher span { font-size: 11px; color: #888; white-space: nowrap; margin-right: 4px; }
+  .switcher button {
+    font-size: 11px; padding: 4px 10px; border-radius: 4px;
+    border: 1px solid #333; background: transparent; color: #999;
+    cursor: pointer; white-space: nowrap; font-family: var(--font-mono);
+    transition: all 0.15s;
+  }
+  .switcher button:hover { border-color: #FF6B35; color: #FF6B35; }
+  .switcher button.active { border-color: #FF6B35; background: rgba(255,107,53,0.15); color: #FF6B35; font-weight: 600; }
+
+  /* ---- Page layout ---- */
+  .page { padding-top: 44px; height: 100vh; display: flex; flex-direction: column; }
+
+  /* Navbar */
+  .navbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 20px; height: 48px; flex-shrink: 0;
+    background: var(--bg-surface); border-bottom: 1px solid var(--border);
+  }
+  .navbar .logo { font-size: 16px; font-weight: 700; color: var(--accent); letter-spacing: -0.5px; }
+  .navbar .nav-links { display: flex; gap: 20px; }
+  .navbar .nav-links a { font-size: 13px; color: var(--text-secondary); text-decoration: none; }
+  .navbar .nav-links a:hover { color: var(--text-primary); }
+  .navbar .connect-btn {
+    font-size: 12px; padding: 6px 14px; border-radius: 6px;
+    background: var(--accent); color: #000; font-weight: 600; border: none; cursor: pointer;
+  }
+
+  /* Question banner */
+  .question-banner {
+    padding: 14px 20px; flex-shrink: 0;
+    background: var(--bg-surface); border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .question-banner h1 { font-size: 16px; font-weight: 600; color: var(--text-primary); }
+  .question-banner .meta { font-size: 12px; color: var(--text-tertiary); }
+
+  /* Main trading area */
+  .trading-area { flex: 1; display: flex; min-height: 0; }
+
+  /* Side panel */
+  .side { flex: 1; display: flex; flex-direction: column; position: relative; min-height: 0; }
+  .side-bg { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+  .side-content { flex: 1; display: flex; flex-direction: column; padding: 12px; gap: 8px; position: relative; z-index: 1; min-height: 0; }
+
+  .side-header { display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+  .side-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+  .side-price { font-size: 24px; font-weight: 700; font-family: var(--font-mono); line-height: 1; }
+
+  /* Orderbook */
+  .orderbook {
+    flex: 1; min-height: 0; display: flex; flex-direction: column;
+    background: var(--bg-panel); border: 1px solid var(--border); border-radius: 6px;
+  }
+  .ob-header {
+    flex-shrink: 0; display: flex; justify-content: space-between;
+    font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px;
+    color: var(--text-tertiary); padding: 6px 8px;
+    border-bottom: 1px solid var(--border); background: var(--bg-panel-solid);
+    border-radius: 6px 6px 0 0;
+  }
+  .ob-asks {
+    flex: 1; min-height: 0; overflow-y: auto;
+    display: flex; flex-direction: column; justify-content: flex-end;
+  }
+  .ob-mid {
+    flex-shrink: 0; padding: 6px 8px;
+    border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    background: var(--bg-panel-solid);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .ob-mid .mid-price { font-size: 15px; font-weight: 700; font-family: var(--font-mono); }
+  .ob-mid .spread-label { font-size: 11px; color: var(--text-tertiary); }
+  .ob-bids { flex: 1; min-height: 0; overflow-y: auto; }
+
+  .ob-row {
+    display: flex; justify-content: space-between;
+    padding: 3px 8px; font-family: var(--font-mono); font-size: 13px;
+    position: relative; line-height: 1.2;
+  }
+  .ob-row .bar { position: absolute; top: 0; bottom: 0; right: 0; opacity: 0.08; }
+  .ob-row .price { position: relative; z-index: 1; font-weight: 500; }
+  .ob-row .qty { position: relative; z-index: 1; color: var(--text-secondary); }
+
+  /* Divider */
+  .divider { width: 1px; flex-shrink: 0; background: var(--border); }
+
+  /* Order entry */
+  .order-entry { flex-shrink: 0; display: flex; flex-direction: column; gap: 6px; }
+  .order-input { display: flex; gap: 6px; }
+  .order-input input {
+    flex: 1; padding: 8px 10px; font-size: 13px; font-family: var(--font-mono);
+    background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 5px;
+    color: var(--text-primary); outline: none;
+  }
+  .order-input input::placeholder { color: var(--text-tertiary); }
+  .order-input input:focus { border-color: var(--accent); }
+  .order-btn {
+    width: 100%; padding: 10px; border: none; border-radius: 6px;
+    font-size: 13px; font-weight: 600; cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .order-btn:hover { opacity: 0.85; }
+
+  /* Stats strip */
+  .stats-strip { flex-shrink: 0; display: flex; gap: 4px; }
+  .stat-card {
+    flex: 1; padding: 6px 8px; text-align: center;
+    background: var(--bg-panel); border: 1px solid var(--border); border-radius: 4px;
+  }
+  .stat-card .stat-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-tertiary); font-weight: 600; }
+  .stat-card .stat-val { font-size: 13px; font-weight: 600; font-family: var(--font-mono); color: var(--text-primary); }
+
+  /* Below fold */
+  .below-fold { flex-shrink: 0; border-top: 1px solid var(--border); }
+  .section { padding: 16px 20px; border-bottom: 1px solid var(--border); }
+  .section h3 { font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; }
+  .section p { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+  .tab {
+    padding: 8px 16px; font-size: 12px; font-weight: 500; color: var(--text-secondary);
+    border-bottom: 2px solid transparent; cursor: pointer;
+  }
+  .tab.active { color: var(--text-primary); border-bottom-color: var(--accent); }
+
+  /* Recent trades */
+  .trades-list { font-size: 12px; font-family: var(--font-mono); }
+  .trade-row { display: flex; justify-content: space-between; padding: 4px 0; }
+  .trade-row .trade-price { font-weight: 500; }
+  .trade-row .trade-qty { color: var(--text-secondary); }
+  .trade-row .trade-time { color: var(--text-tertiary); font-size: 11px; }
+</style>
+</head>
+<body class="theme-1">
+
+<!-- Theme switcher -->
+<div class="switcher">
+  <span>Theme:</span>
+  <button class="active" onclick="setTheme(1, this)">1 Neutral</button>
+  <button onclick="setTheme(2, this)">2 Barely Warm</button>
+  <button onclick="setTheme(3, this)">3 Subtle Ember</button>
+  <button onclick="setTheme(8, this)">8 Warm Charcoal</button>
+  <button onclick="setTheme(10, this)">10 Smoke &amp; Fire</button>
+  <button onclick="setTheme(11, this)">11 Sentiment Green</button>
+  <button onclick="setTheme(12, this)">12 Sentiment Red</button>
+  <button onclick="enterSentimentMode(this)" id="sentimentBtn">Sentiment Mode</button>
+</div>
+
+<div class="sentiment-bar" id="sentimentBar">
+  <label>YES Price:</label>
+  <span style="color:var(--no);font-size:11px;">$0.10</span>
+  <input type="range" id="priceSlider" min="100" max="900" value="620" oninput="onSliderChange(this.value)">
+  <span style="color:var(--yes);font-size:11px;">$0.90</span>
+  <span class="price-display" id="sliderPrice" style="color:#FF6B35;">$0.62</span>
+  <span class="zone-label" id="zoneLabel">YES leaning</span>
+  <button class="auto-toggle" id="autoBtn" onclick="toggleAuto()">Auto</button>
+</div>
+
+<div class="page">
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div style="display:flex;align-items:center;gap:24px;">
+      <div class="logo">Caster</div>
+      <div class="nav-links">
+        <a href="#">Markets</a>
+        <a href="#" style="color:var(--text-primary)">Trade</a>
+        <a href="#">Portfolio</a>
+        <a href="#">Analytics</a>
+      </div>
+    </div>
+    <button class="connect-btn">Connect Wallet</button>
+  </nav>
+
+  <!-- Question banner -->
+  <div class="question-banner">
+    <div>
+      <h1>Will the Iranian regime fall by June 30?</h1>
+      <div class="meta" style="margin-top:4px;">Market #1 &middot; Expires Jun 30, 2026 &middot; Volume: $14,200</div>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <div style="padding:4px 10px;border-radius:4px;background:var(--accent-dim);color:var(--accent);font-size:12px;font-weight:600;">Open</div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <div class="tab active">Order Book</div>
+    <div class="tab">Recent Trades</div>
+    <div class="tab">My Orders</div>
+    <div class="tab">Chart</div>
+  </div>
+
+  <!-- Trading area -->
+  <div class="trading-area">
+    <!-- YES Side -->
+    <div class="side">
+      <div class="side-bg" style="background:linear-gradient(135deg,rgba(34,197,94,0.05) 0%,transparent 60%);"></div>
+      <div class="side-content">
+        <div class="side-header">
+          <span class="side-label" style="color:var(--yes);">Yes</span>
+          <span class="side-price" style="color:var(--yes);">$0.62</span>
+        </div>
+        <div class="orderbook">
+          <div class="ob-header"><span>Price</span><span>Qty</span></div>
+          <div class="ob-asks" id="yes-asks"></div>
+          <div class="ob-mid">
+            <span class="mid-price" style="color:var(--yes);">$0.620</span>
+            <span class="spread-label">spread $0.012</span>
+          </div>
+          <div class="ob-bids" id="yes-bids"></div>
+        </div>
+        <div class="stats-strip">
+          <div class="stat-card"><div class="stat-label">Depth</div><div class="stat-val">$4,280</div></div>
+          <div class="stat-card"><div class="stat-label">Best Bid</div><div class="stat-val">0.614</div></div>
+          <div class="stat-card"><div class="stat-label">Best Ask</div><div class="stat-val">0.626</div></div>
+        </div>
+        <div class="order-entry">
+          <div class="order-input">
+            <input type="text" placeholder="Price" value="0.614">
+            <input type="text" placeholder="Qty" value="100">
+          </div>
+          <button class="order-btn" style="background:var(--yes);color:#000;">Buy Yes</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="divider"></div>
+
+    <!-- NO Side -->
+    <div class="side">
+      <div class="side-bg" style="background:linear-gradient(225deg,rgba(239,68,68,0.05) 0%,transparent 60%);"></div>
+      <div class="side-content">
+        <div class="side-header">
+          <span class="side-label" style="color:var(--no);">No</span>
+          <span class="side-price" style="color:var(--no);">$0.38</span>
+        </div>
+        <div class="orderbook">
+          <div class="ob-header"><span>Price</span><span>Qty</span></div>
+          <div class="ob-asks" id="no-asks"></div>
+          <div class="ob-mid">
+            <span class="mid-price" style="color:var(--no);">$0.380</span>
+            <span class="spread-label">spread $0.012</span>
+          </div>
+          <div class="ob-bids" id="no-bids"></div>
+        </div>
+        <div class="stats-strip">
+          <div class="stat-card"><div class="stat-label">Depth</div><div class="stat-val">$3,920</div></div>
+          <div class="stat-card"><div class="stat-label">Best Bid</div><div class="stat-val">0.374</div></div>
+          <div class="stat-card"><div class="stat-label">Best Ask</div><div class="stat-val">0.386</div></div>
+        </div>
+        <div class="order-entry">
+          <div class="order-input">
+            <input type="text" placeholder="Price" value="0.386">
+            <input type="text" placeholder="Qty" value="100">
+          </div>
+          <button class="order-btn" style="background:var(--no);color:#fff;">Buy No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Below fold -->
+  <div class="below-fold">
+    <div class="section">
+      <h3>Resolution Criteria</h3>
+      <p>This market resolves YES if the current Iranian regime (Islamic Republic of Iran) is no longer the governing authority of Iran by June 30, 2026 23:59 UTC. Regime change includes overthrow, dissolution, or formal transition of power to a non-theocratic government.</p>
+    </div>
+    <div class="section">
+      <h3>Recent Trades</h3>
+      <div class="trades-list">
+        <div class="trade-row"><span class="trade-price" style="color:var(--yes);">0.618</span><span class="trade-qty">45</span><span class="trade-time">2m ago</span></div>
+        <div class="trade-row"><span class="trade-price" style="color:var(--no);">0.622</span><span class="trade-qty">120</span><span class="trade-time">3m ago</span></div>
+        <div class="trade-row"><span class="trade-price" style="color:var(--yes);">0.614</span><span class="trade-qty">30</span><span class="trade-time">5m ago</span></div>
+        <div class="trade-row"><span class="trade-price" style="color:var(--no);">0.626</span><span class="trade-qty">85</span><span class="trade-time">7m ago</span></div>
+        <div class="trade-row"><span class="trade-price" style="color:var(--yes);">0.610</span><span class="trade-qty">200</span><span class="trade-time">12m ago</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Safe DOM-based orderbook generation
+function createRow(price, qty, color, maxQty) {
+  var row = document.createElement('div');
+  row.className = 'ob-row';
+
+  var bar = document.createElement('div');
+  bar.className = 'bar';
+  bar.style.width = ((qty / maxQty) * 100) + '%';
+  bar.style.background = color;
+
+  var priceEl = document.createElement('span');
+  priceEl.className = 'price';
+  priceEl.style.color = color;
+  priceEl.textContent = (price / 1000).toFixed(3);
+
+  var qtyEl = document.createElement('span');
+  qtyEl.className = 'qty';
+  qtyEl.textContent = qty.toLocaleString();
+
+  row.appendChild(bar);
+  row.appendChild(priceEl);
+  row.appendChild(qtyEl);
+  return row;
+}
+
+function generateLevels(containerId, color, basePrice, direction) {
+  var container = document.getElementById(containerId);
+  container.textContent = '';
+  var levels = 12;
+  var maxQty = 5000;
+  for (var i = 0; i < levels; i++) {
+    var idx = direction === 'asc' ? levels - 1 - i : i;
+    var price = basePrice + (direction === 'asc' ? (idx + 1) * 4 : -(idx * 4));
+    var qty = Math.round(300 + Math.random() * 4500);
+    container.appendChild(createRow(price, qty, color, maxQty));
+  }
+}
+
+generateLevels('yes-asks', 'var(--no)', 620, 'asc');
+generateLevels('yes-bids', 'var(--yes)', 614, 'desc');
+generateLevels('no-asks', 'var(--yes)', 380, 'asc');
+generateLevels('no-bids', 'var(--no)', 374, 'desc');
+
+// ---- Static theme switching ----
+var sentimentActive = false;
+var autoRunning = false;
+var autoInterval = null;
+
+function setTheme(n, btn) {
+  sentimentActive = false;
+  stopAuto();
+  document.getElementById('sentimentBar').className = 'sentiment-bar';
+  document.getElementById('sentimentBtn').className = '';
+  document.querySelector('.page').style.paddingTop = '44px';
+  // Clear any inline CSS vars from sentiment mode
+  var props = ['--bg-base','--bg-surface','--bg-elevated','--bg-panel','--bg-panel-solid','--border','--text-secondary','--text-tertiary'];
+  for (var i = 0; i < props.length; i++) { document.body.style.removeProperty(props[i]); }
+  document.body.className = 'theme-' + n;
+  var buttons = document.querySelectorAll('.switcher button');
+  for (var i = 0; i < buttons.length; i++) {
+    buttons[i].className = (buttons[i] === btn) ? 'active' : '';
+  }
+}
+
+// ---- Sentiment mode ----
+// Threshold zones: each zone has a color palette
+// The transition between zones is handled by CSS transition: 3s
+var ZONES = [
+  { max: 200, label: 'Strong NO',     labelColor: '#EF4444', bg:'#0E0808', surface:'#161010', elevated:'#201616', panel:'rgba(22,14,14,0.78)', panelSolid:'#161010', border:'#301E1E', textSec:'#887070', textTer:'#5C4848' },
+  { max: 350, label: 'Leaning NO',    labelColor: '#F87171', bg:'#0D0909', surface:'#151111', elevated:'#1E1818', panel:'rgba(22,16,16,0.76)', panelSolid:'#151111', border:'#2C2222', textSec:'#847474', textTer:'#564A4A' },
+  { max: 450, label: 'Slight NO',     labelColor: '#FCA5A5', bg:'#0C0A09', surface:'#141210', elevated:'#1D1A18', panel:'rgba(20,18,16,0.75)', panelSolid:'#141210', border:'#2A2624', textSec:'#807876', textTer:'#524E4C' },
+  { max: 550, label: 'Neutral',       labelColor: '#FF6B35', bg:'#0C0B0A', surface:'#141312', elevated:'#1D1B1A', panel:'rgba(20,19,18,0.75)', panelSolid:'#141312', border:'#2A2826', textSec:'#807C76', textTer:'#524E4A' },
+  { max: 650, label: 'Slight YES',    labelColor: '#86EFAC', bg:'#0A0C09', surface:'#111410', elevated:'#1A1D18', panel:'rgba(16,20,16,0.75)', panelSolid:'#111410', border:'#242A24', textSec:'#768076', textTer:'#4C524A' },
+  { max: 800, label: 'Leaning YES',   labelColor: '#4ADE80', bg:'#090C09', surface:'#101410', elevated:'#181E18', panel:'rgba(16,22,16,0.76)', panelSolid:'#101410', border:'#202C20', textSec:'#708070', textTer:'#485648' },
+  { max: 1000, label: 'Strong YES',   labelColor: '#22C55E', bg:'#080D08', surface:'#0E150E', elevated:'#162016', panel:'rgba(14,22,14,0.78)', panelSolid:'#0E150E', border:'#1C2E1C', textSec:'#688068', textTer:'#445844' },
+];
+
+function getZone(price) {
+  for (var i = 0; i < ZONES.length; i++) {
+    if (price <= ZONES[i].max) return ZONES[i];
+  }
+  return ZONES[ZONES.length - 1];
+}
+
+function applySentiment(price) {
+  var zone = getZone(price);
+  var el = document.body;
+  el.style.setProperty('--bg-base', zone.bg);
+  el.style.setProperty('--bg-surface', zone.surface);
+  el.style.setProperty('--bg-elevated', zone.elevated);
+  el.style.setProperty('--bg-panel', zone.panel);
+  el.style.setProperty('--bg-panel-solid', zone.panelSolid);
+  el.style.setProperty('--border', zone.border);
+  el.style.setProperty('--text-secondary', zone.textSec);
+  el.style.setProperty('--text-tertiary', zone.textTer);
+
+  // Update displayed prices
+  var yesP = (price / 1000).toFixed(2);
+  var noP = ((1000 - price) / 1000).toFixed(2);
+  var yesMid = (price / 1000).toFixed(3);
+  var noMid = ((1000 - price) / 1000).toFixed(3);
+
+  var yesPrices = document.querySelectorAll('.side-price');
+  if (yesPrices[0]) yesPrices[0].textContent = '$' + yesP;
+  if (yesPrices[1]) yesPrices[1].textContent = '$' + noP;
+
+  var mids = document.querySelectorAll('.mid-price');
+  if (mids[0]) mids[0].textContent = '$' + yesMid;
+  if (mids[1]) mids[1].textContent = '$' + noMid;
+
+  // Update slider UI
+  document.getElementById('sliderPrice').textContent = '$' + yesP;
+  document.getElementById('sliderPrice').style.color = zone.labelColor;
+  var zl = document.getElementById('zoneLabel');
+  zl.textContent = zone.label;
+  zl.style.color = zone.labelColor;
+  zl.style.background = zone.labelColor + '18';
+}
+
+function enterSentimentMode(btn) {
+  sentimentActive = true;
+  // Clear any leftover inline vars first
+  var props = ['--bg-base','--bg-surface','--bg-elevated','--bg-panel','--bg-panel-solid','--border','--text-secondary','--text-tertiary'];
+  for (var i = 0; i < props.length; i++) { document.body.style.removeProperty(props[i]); }
+
+  document.body.className = 'theme-sentiment';
+  document.getElementById('sentimentBar').className = 'sentiment-bar visible';
+  document.querySelector('.page').style.paddingTop = '80px';
+
+  var buttons = document.querySelectorAll('.switcher button');
+  for (var i = 0; i < buttons.length; i++) {
+    buttons[i].className = (buttons[i] === btn) ? 'active' : '';
+  }
+
+  // Apply initial zone immediately
+  var val = parseInt(document.getElementById('priceSlider').value);
+  applySentiment(val);
+}
+
+function onSliderChange(val) {
+  if (!sentimentActive) return;
+  document.getElementById('priceSlider').value = val;
+  applySentiment(parseInt(val));
+}
+
+// ---- Auto mode: simulate price drifting ----
+var autoPrice = 620;
+var autoDrift = 0;
+
+function toggleAuto() {
+  if (autoRunning) {
+    stopAuto();
+  } else {
+    startAuto();
+  }
+}
+
+function startAuto() {
+  if (!sentimentActive) return;
+  autoRunning = true;
+  autoPrice = parseInt(document.getElementById('priceSlider').value);
+  autoDrift = (Math.random() - 0.5) * 8; // initial drift direction
+  document.getElementById('autoBtn').className = 'auto-toggle active';
+
+  autoInterval = setInterval(function() {
+    // Random walk with occasional regime shifts
+    if (Math.random() < 0.02) {
+      // Regime shift — change drift direction
+      autoDrift = (Math.random() - 0.5) * 12;
+    }
+    autoDrift += (Math.random() - 0.5) * 2;
+    autoDrift = Math.max(-8, Math.min(8, autoDrift));
+    autoPrice += autoDrift;
+    autoPrice = Math.max(100, Math.min(900, autoPrice));
+
+    document.getElementById('priceSlider').value = Math.round(autoPrice);
+    applySentiment(Math.round(autoPrice));
+  }, 300);
+}
+
+function stopAuto() {
+  autoRunning = false;
+  if (autoInterval) clearInterval(autoInterval);
+  autoInterval = null;
+  document.getElementById('autoBtn').className = 'auto-toggle';
+}
+</script>
+</body>
+</html>

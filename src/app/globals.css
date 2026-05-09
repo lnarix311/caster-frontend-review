@@ -1,0 +1,1136 @@
+@import "tailwindcss";
+
+/* =================================================================
+   DESIGN TOKENS -- DARK MODE (default)
+   ================================================================= */
+:root,
+[data-theme="dark"] {
+  /* Backgrounds */
+  --bg-base: #0C0A09;
+  --bg-surface: #141210;
+  --bg-elevated: #1C1916;
+
+  /* Borders */
+  --border-default: #2C2520;
+  --border-accent: rgba(224, 136, 90, 0.25);
+
+  /* Text */
+  --text-primary: #EBE8E4;
+  --text-secondary: #9B9790;
+  --text-tertiary: #6E6A64;
+
+  /* Accent */
+  --accent: #E0885A;
+  --accent-hover: #CF7550;
+  --accent-dim: rgba(224, 136, 90, 0.11);
+  --accent-glow: rgba(224, 136, 90, 0.06);
+  --accent-on: #000000;
+
+  /* Semantic -- Yes/Bid */
+  --yes: #22C55E;
+  --yes-dim: rgba(34, 197, 94, 0.12);
+  --yes-text: #22C55E;
+
+  /* Semantic -- No/Ask */
+  --no: #EF4444;
+  --no-dim: rgba(239, 68, 68, 0.12);
+  --no-text: #EF4444;
+
+  /* Semantic -- Warning / Info */
+  --warning: #FBBF24;
+  --warning-dim: rgba(251, 191, 36, 0.12);
+  --info: #60A5FA;
+  --info-dim: rgba(96, 165, 250, 0.12);
+
+  /* Panel backgrounds (semi-transparent) */
+  --bg-panel: rgba(20, 19, 18, 0.75);
+  --bg-panel-solid: rgba(20, 19, 18, 0.95);
+  --bg-overlay: rgba(12, 11, 10, 0.8);
+  --bg-overlay-subtle: rgba(12, 11, 10, 0.6);
+  --chart-grid: rgba(255, 255, 255, 0.04);
+  --highlight: rgba(255, 255, 255, 0.12);
+  --yes-subtle: rgba(34, 197, 94, 0.06);
+  --no-subtle: rgba(239, 68, 68, 0.06);
+
+  /* Shadows */
+  --shadow-card: none;
+  --shadow-elevated: 0 1px 2px rgba(0,0,0,0.4);
+
+  /* Radii */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* Typography */
+  --font-serif: var(--font-playfair), 'Georgia', 'Times New Roman', serif;
+  --font-sans: 'General Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+  --font-body: var(--font-sans);
+
+  /* Font sizes */
+  --text-2xs: 10px;
+  --text-xs: 11px;
+  --text-sm: 13px;
+  --text-base: 14px;
+  --text-md: 16px;
+  --text-lg: 20px;
+  --text-xl: 24px;
+  --text-2xl: 28px;
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+
+  /* Legacy compat -- map old tokens to new ones */
+  --bg-primary: var(--bg-base);
+  --bg-secondary: var(--bg-surface);
+  --bg-tertiary: var(--bg-elevated);
+  --border: var(--border-default);
+  --green: var(--yes);
+  --red: var(--no);
+  --green-dim: var(--yes-dim);
+  --red-dim: var(--no-dim);
+
+  /* === Glass Tokens -- Scene === */
+  --glass-scene-bg: #0A0A0A;
+
+  /* === Glass Surface Tiers === */
+  /* Tier 1: Primary glass -- navbar, main cards, orderbook panels */
+  --glass-bg: rgba(20, 19, 18, 0.55);
+  --glass-bg-hover: rgba(20, 19, 18, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.10);
+  --glass-border-hover: rgba(255, 255, 255, 0.16);
+  --glass-blur: 16px;
+  --glass-saturate: 1.2;
+
+  /* Tier 2: Elevated glass -- modals, dropdowns, tooltips */
+  --glass-elevated-bg: rgba(29, 27, 26, 0.70);
+  --glass-elevated-bg-hover: rgba(29, 27, 26, 0.80);
+  --glass-elevated-border: rgba(255, 255, 255, 0.08);
+  --glass-elevated-blur: 20px;
+
+  /* Tier 3: Subtle glass -- tab backgrounds, input wells, secondary areas */
+  --glass-subtle-bg: rgba(16, 13, 11, 0.40);
+  --glass-subtle-border: rgba(255, 255, 255, 0.04);
+  --glass-subtle-blur: 8px;
+
+  /* === Glass Shadows === */
+  --glass-shadow: 0 4px 24px rgba(0, 0, 0, 0.25), 0 1px 3px rgba(0, 0, 0, 0.15);
+  --glass-shadow-elevated: 0 8px 40px rgba(0, 0, 0, 0.35), 0 2px 8px rgba(0, 0, 0, 0.20);
+
+  /* === Glass Inner Highlight === */
+  --glass-highlight: rgba(255, 255, 255, 0.07);
+  --glass-highlight-strong: rgba(255, 255, 255, 0.12);
+
+  /* === Data Readability Layer === */
+  --glass-data-bg: rgba(20, 19, 18, 0.75);
+  --glass-data-blur: 12px;
+
+  /* === Accent Glass === */
+  --glass-accent-bg: rgba(224, 136, 90, 0.06);
+  --glass-accent-border: rgba(224, 136, 90, 0.12);
+
+  /* === Semantic Glass === */
+  --glass-yes-bg: rgba(34, 197, 94, 0.05);
+  --glass-yes-border: rgba(34, 197, 94, 0.10);
+  --glass-no-bg: rgba(239, 68, 68, 0.05);
+  --glass-no-border: rgba(239, 68, 68, 0.10);
+
+  /* === Portfolio P&L Tokens === */
+  --pnl-positive: var(--yes);
+  --pnl-negative: var(--no);
+  --pnl-zero: var(--text-tertiary);
+  --pnl-positive-bg: var(--yes-subtle);
+  --pnl-negative-bg: var(--no-subtle);
+  --table-row-alt: rgba(255, 255, 255, 0.02);
+  --table-row-hover: rgba(255, 255, 255, 0.04);
+  --table-border: rgba(255, 255, 255, 0.04);
+
+  /* === Duel Orderbook Tokens === */
+  /* Legacy single-stop depth tokens kept for back-compat; new gradient
+     tokens below are what BookRow renders. */
+  --duel-yes-bid-depth: rgba(34, 197, 94, 0.10);
+  --duel-no-bid-depth: rgba(239, 68, 68, 0.10);
+  --duel-yes-ask-depth: rgba(34, 197, 94, 0.05);
+  --duel-no-ask-depth: rgba(239, 68, 68, 0.05);
+  --duel-yes-ask-price: #8B9E91;
+  --duel-no-ask-price: #9E8B8B;
+  --duel-spread-border-yes: rgba(34, 197, 94, 0.12);
+  --duel-spread-border-no: rgba(239, 68, 68, 0.12);
+  --duel-spread-bg-yes: rgba(34, 197, 94, 0.03);
+  --duel-spread-bg-no: rgba(239, 68, 68, 0.03);
+  --duel-row-hover: rgba(255, 255, 255, 0.04);
+  --duel-book-well: rgba(0, 0, 0, 0.10);
+
+  /* Two-stop depth-bar gradient (see docs/design/orderbook-alignment-2026-04-19.md).
+     Bar is painted as linear-gradient(direction, max, min) with the dense
+     end (`-max`) at the anchor edge and the fade (`-min`) at the growing
+     edge. Dark mode uses slightly lower alphas than light because dark
+     mode amplifies perceived saturation. */
+  --depth-bar-yes-min: rgba(34, 197, 94, 0.08);
+  --depth-bar-yes-max: rgba(34, 197, 94, 0.18);
+  --depth-bar-no-min: rgba(239, 68, 68, 0.08);
+  --depth-bar-no-max: rgba(239, 68, 68, 0.18);
+
+  /* Oracle Theme Tokens */
+  --oracle-bg: #0C0A09;
+  --oracle-surface: #141210;
+  --oracle-elevated: #1C1916;
+  --oracle-border: #2C2520;
+  --oracle-border-thin: rgba(235, 232, 228, 0.08);
+  --oracle-text-ink: #EBE8E4;
+  --oracle-text-muted: #9B9790;
+  --oracle-text-faint: #6E6A64;
+  --oracle-accent-from: #E0885A;
+  --oracle-accent-to: #CF7550;
+  --oracle-accent-gradient: linear-gradient(135deg, #E0885A, #CF7550);
+  --oracle-panel-bg: rgba(20, 18, 16, 0.60);
+  --oracle-grain-opacity: 0.015;
+  --oracle-divider: rgba(235, 232, 228, 0.06);
+  --oracle-input-border: rgba(235, 232, 228, 0.12);
+  --oracle-input-focus-border: rgba(224, 136, 90, 0.40);
+}
+
+/* =================================================================
+   LIGHT MODE -- Newspaper / Editorial Theme
+   ================================================================= */
+[data-theme="light"] {
+  /* Newspaper palette */
+  --bg-base: #F5F0E8;
+  --bg-surface: #EDE8DF;
+  --bg-elevated: #E5E0D6;
+  --border-default: #D8D2C8;
+  --border-accent: rgba(192, 107, 88, 0.30);
+  --text-primary: #1A1A18;
+  --text-secondary: #8A8578;
+  --text-tertiary: #A09888;
+  --accent: #D4846F;
+  --accent-hover: #C06B58;
+  --accent-dim: rgba(212, 132, 111, 0.10);
+  --accent-glow: rgba(212, 132, 111, 0.04);
+  --accent-on: #FFFFFF;
+  --yes: #16A34A;
+  --yes-dim: rgba(22, 163, 74, 0.10);
+  --yes-text: #15803D;
+  --no: #DC2626;
+  --no-dim: rgba(220, 38, 38, 0.08);
+  --no-text: #B91C1C;
+  --warning: #D97706;
+  --warning-dim: rgba(217, 119, 6, 0.10);
+  --info: #2563EB;
+  --info-dim: rgba(37, 99, 235, 0.08);
+  --bg-panel: rgba(237, 232, 223, 0.7);
+  --bg-panel-solid: rgba(237, 232, 223, 0.98);
+  --bg-overlay: rgba(245, 240, 232, 0.9);
+  --bg-overlay-subtle: rgba(245, 240, 232, 0.8);
+  --chart-grid: rgba(0, 0, 0, 0.06);
+  --highlight: rgba(0, 0, 0, 0.06);
+  --yes-subtle: rgba(22, 163, 74, 0.06);
+  --no-subtle: rgba(220, 38, 38, 0.06);
+  --shadow-card: none;
+  --shadow-elevated: 0 1px 3px rgba(0,0,0,0.04);
+
+  --bg-primary: var(--bg-base);
+  --bg-secondary: var(--bg-surface);
+  --bg-tertiary: var(--bg-elevated);
+  --border: var(--border-default);
+  --green: var(--yes);
+  --red: var(--no);
+  --green-dim: var(--yes-dim);
+  --red-dim: var(--no-dim);
+
+  /* Newspaper typography */
+  --font-headline: 'Georgia', 'Times New Roman', serif;
+
+  /* Newspaper-specific tokens */
+  --np-border: #D8D2C8;
+  --np-border-heavy: #C8C0B4;
+  --np-border-rule: #1A1A18;
+
+  /* === Portfolio P&L Tokens === */
+  --pnl-positive: #15803D;
+  --pnl-negative: #B91C1C;
+  --pnl-zero: #A09888;
+  --pnl-positive-bg: rgba(22, 163, 74, 0.06);
+  --pnl-negative-bg: rgba(220, 38, 38, 0.06);
+  --table-row-alt: transparent;
+  --table-row-hover: rgba(237, 232, 223, 0.4);
+  --table-border: #D8D2C8;
+
+  /* === Light Mode Glass Tokens (newspaper overrides) === */
+  --glass-scene-bg: #F5F0E8;
+
+  --glass-bg: rgba(245, 240, 232, 0.80);
+  --glass-bg-hover: rgba(245, 240, 232, 0.92);
+  --glass-border: #D8D2C8;
+  --glass-border-hover: #C8C0B4;
+  --glass-blur: 0px;
+  --glass-saturate: 1.0;
+
+  --glass-elevated-bg: rgba(245, 240, 232, 0.95);
+  --glass-elevated-bg-hover: rgba(245, 240, 232, 0.98);
+  --glass-elevated-border: #D8D2C8;
+  --glass-elevated-blur: 0px;
+
+  --glass-subtle-bg: rgba(237, 232, 223, 0.50);
+  --glass-subtle-border: #D8D2C8;
+  --glass-subtle-blur: 0px;
+
+  --glass-shadow: none;
+  --glass-shadow-elevated: 0 1px 3px rgba(0,0,0,0.04);
+
+  --glass-highlight: transparent;
+  --glass-highlight-strong: transparent;
+
+  --glass-data-bg: rgba(245, 240, 232, 0.90);
+  --glass-data-blur: 0px;
+
+  --glass-accent-bg: rgba(212, 132, 111, 0.04);
+  --glass-accent-border: rgba(212, 132, 111, 0.12);
+
+  --glass-yes-bg: rgba(22, 163, 74, 0.06);
+  --glass-yes-border: rgba(22, 163, 74, 0.15);
+  --glass-no-bg: rgba(220, 38, 38, 0.06);
+  --glass-no-border: rgba(220, 38, 38, 0.15);
+
+  /* === Duel Orderbook Tokens (Light / Newspaper) === */
+  --duel-yes-bid-depth: rgba(22, 163, 74, 0.14);
+  --duel-no-bid-depth: rgba(220, 38, 38, 0.14);
+  --duel-yes-ask-depth: rgba(22, 163, 74, 0.09);
+  --duel-no-ask-depth: rgba(220, 38, 38, 0.09);
+  --duel-yes-ask-price: #15803D;
+  --duel-no-ask-price: #B91C1C;
+  --duel-spread-border-yes: rgba(22, 163, 74, 0.25);
+  --duel-spread-border-no: rgba(220, 38, 38, 0.25);
+  --duel-spread-bg-yes: rgba(22, 163, 74, 0.04);
+  --duel-spread-bg-no: rgba(220, 38, 38, 0.04);
+  --duel-row-hover: rgba(0, 0, 0, 0.04);
+  --duel-book-well: rgba(26, 26, 26, 0.04);
+
+  /* Depth-bar gradient stops (light mode). Slightly higher alpha than
+     dark mode because a pale parchment background washes the tint. */
+  --depth-bar-yes-min: rgba(22, 163, 74, 0.10);
+  --depth-bar-yes-max: rgba(22, 163, 74, 0.22);
+  --depth-bar-no-min: rgba(220, 38, 38, 0.10);
+  --depth-bar-no-max: rgba(220, 38, 38, 0.22);
+
+  /* Oracle Theme Tokens */
+  --oracle-bg: #FDFCFB;
+  --oracle-surface: #F7F5F2;
+  --oracle-elevated: #FFFFFF;
+  --oracle-border: rgba(26, 26, 26, 0.15);
+  --oracle-border-thin: rgba(26, 26, 26, 0.10);
+  --oracle-text-ink: #1A1A1A;
+  --oracle-text-muted: rgba(26, 26, 26, 0.60);
+  --oracle-text-faint: rgba(26, 26, 26, 0.35);
+  --oracle-accent-from: #D4846F;
+  --oracle-accent-to: #C06B58;
+  --oracle-accent-gradient: linear-gradient(135deg, #D4846F, #C06B58);
+  --oracle-panel-bg: rgba(255, 255, 255, 0.40);
+  --oracle-grain-opacity: 0.04;
+  --oracle-divider: rgba(26, 26, 26, 0.08);
+  --oracle-input-border: rgba(26, 26, 26, 0.20);
+  --oracle-input-focus-border: rgba(192, 107, 88, 0.50);
+}
+
+/* =================================================================
+   GLOBAL RESET + BASE
+   ================================================================= */
+body {
+  background:
+    /* Layer 1: Warm ember radial glow, top-center */
+    radial-gradient(
+      ellipse 80% 50% at 50% 0%,
+      rgba(224, 136, 90, 0.18) 0%,
+      transparent 70%
+    ),
+    /* Layer 2: Cool blue-violet counter-glow, bottom-right */
+    radial-gradient(
+      ellipse 60% 40% at 85% 100%,
+      rgba(99, 102, 241, 0.12) 0%,
+      transparent 60%
+    ),
+    /* Layer 3: Warm center glow */
+    radial-gradient(
+      circle at 30% 60%,
+      rgba(224, 136, 90, 0.08) 0%,
+      transparent 50%
+    ),
+    /* Base color */
+    var(--glass-scene-bg);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.5;
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Light mode scene background -- flat parchment, no gradients */
+[data-theme="light"] body {
+  background: #F5F0E8;
+  background-attachment: fixed;
+}
+
+/* Light mode: grain overlay -- paper-stock feel */
+[data-theme="light"] body::after {
+  opacity: var(--oracle-grain-opacity);
+  mix-blend-mode: multiply;
+}
+
+/* Light mode: warm scrollbar */
+[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: rgba(26, 26, 24, 0.12);
+}
+[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(26, 26, 24, 0.22);
+}
+
+/* =================================================================
+   GLASS UTILITY CLASSES
+   ================================================================= */
+
+/* Tier 1: Primary glass -- cards, panels */
+.glass {
+  background: #151210;
+  border: 1px solid #2C2520;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  transition: box-shadow 200ms ease-out, border-color 200ms ease-out, background 200ms ease-out;
+}
+.glass:hover {
+  box-shadow: 0 0 20px rgba(224, 136, 90, 0.06), 0 1px 3px rgba(0,0,0,0.3);
+  border-color: rgba(224, 136, 90, 0.12);
+}
+
+/* Tier 2: Elevated glass -- modals, dropdowns (KEEP backdrop-filter) */
+.glass-elevated {
+  background: var(--glass-elevated-bg);
+  backdrop-filter: blur(var(--glass-elevated-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-elevated-blur)) saturate(var(--glass-saturate));
+  border: 1px solid var(--glass-elevated-border);
+  box-shadow: var(--glass-shadow-elevated), inset 0 1px 0 var(--glass-highlight-strong);
+  transition: box-shadow 200ms ease-out, border-color 200ms ease-out, background 200ms ease-out;
+}
+
+/* Tier 3 (data-dense): Solid warm bg for readability -- orderbook, trades */
+.glass-data {
+  background: #131110;
+  border: 1px solid #2C2520;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  contain: paint;
+  transition: box-shadow 200ms ease-out, border-color 200ms ease-out, background 200ms ease-out;
+}
+.glass-data:hover {
+  box-shadow: 0 0 20px rgba(224, 136, 90, 0.06), 0 1px 3px rgba(0,0,0,0.3);
+  border-color: rgba(224, 136, 90, 0.12);
+}
+
+/* Tier 3 (subtle): Solid warm bg -- inputs, secondary areas */
+.glass-subtle {
+  background: #0E0B08;
+  border: 1px solid rgba(255,255,255,0.04);
+  transition: box-shadow 200ms ease-out, border-color 200ms ease-out, background 200ms ease-out;
+}
+
+/* =================================================================
+   NOISE TEXTURE OVERLAY (nice-to-have)
+   ================================================================= */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  opacity: var(--oracle-grain-opacity);
+  mix-blend-mode: overlay;
+}
+
+/* =================================================================
+   SCROLLBAR -- transparent track for glass
+   ================================================================= */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+/* =================================================================
+   DUEL ORDERBOOK ANIMATIONS
+   ================================================================= */
+@keyframes duel-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.7; }
+}
+
+/* =================================================================
+   LIVELINESS ANIMATIONS
+   -----------------------------------------------------------------
+   Used by:
+     - ResolvesInChip (critical urgency, <1h to resolve)
+     - MarketLiveStats (last-trade pulse when <30s)
+     - TradeTape (row flash on new trade)
+   All animations are disabled via the reduced-motion block below.
+   ================================================================= */
+@keyframes resolvesInPulse {
+  0%, 100% { opacity: 0.65; }
+  50%      { opacity: 1; }
+}
+@keyframes liveDotPulse {
+  0%, 100% { opacity: 0.55; }
+  50%      { opacity: 1; }
+}
+@keyframes tradeTapeFlash {
+  /* Background flash on new trade arrival -- brief (~200ms) accent wash that
+     fades to transparent. The accent color is a CSS custom property set by
+     the component (theme-aware). */
+  0%   { background-color: var(--tape-flash-bg, transparent); }
+  100% { background-color: transparent; }
+}
+@keyframes marketCardPulse {
+  /* Peripheral "this market just traded" signal. Background-only tint
+     (no motion, no scale) so it doesn't disrupt the user reading the
+     card sitting under their fovea. Theme-aware via the same
+     --tape-flash-bg custom property the TradeTape uses. */
+  0%   { background-color: var(--tape-flash-bg, transparent); }
+  100% { background-color: transparent; }
+}
+
+/* =================================================================
+   SITEWIDE TRADE TAPE (H1) -- horizontal marquee on the home page
+   -----------------------------------------------------------------
+   - Translates the track -50% so the two mirrored copies loop
+     seamlessly (the mirror is aria-hidden in JSX).
+   - Scroll duration is set per-instance via the --sitewide-tape-duration
+     custom property, computed by the component from the measured track
+     width so the on-screen pixel velocity stays constant (~30 px/s)
+     regardless of how many rows are present.
+   - Pauses on hover of the whole tape (not just the track) so users
+     can reliably catch a row to click.
+   - Row hover gets a subtle background tint; click navigates to the
+     market page via a real <a> link (prefetch + focusable).
+   - Hidden under 480px -- mobile surfaces trades via market cards.
+   ================================================================= */
+@keyframes sitewideTapeScroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.sitewide-tape-track {
+  animation-duration: var(--sitewide-tape-duration, 60s);
+}
+/* Pause on hover of an actual row (not the whole strip).
+   The strip is full-bleed and ~44px tall, so "hover anywhere in the
+   strip" pauses the tape on casual cursor movement across a 1440px+
+   screen -- a surprisingly common friction. Scoping to row:hover via
+   `:has()` keeps pause behaviour tied to deliberate user intent (cursor
+   is actually over a tradable row). The LIVE label and gap areas no
+   longer pause the tape; this is intentional -- the label is not
+   interactive. Falls back to "always scrolling" on browsers without
+   `:has()` support (Safari <15.4 / Firefox <121), which is acceptable
+   since pause is a convenience, not correctness. */
+.sitewide-tape-track:has(.sitewide-tape-row:hover) {
+  animation-play-state: paused !important;
+}
+.sitewide-tape-row {
+  /* Reset anchor defaults for rows rendered as <Link>. */
+  color: inherit;
+  text-decoration: none;
+}
+.sitewide-tape-row:hover {
+  background-color: var(--tape-flash-bg, transparent);
+}
+.sitewide-tape-row:focus-visible {
+  outline: 1px solid currentColor;
+  outline-offset: 1px;
+}
+@media (max-width: 479px) {
+  .sitewide-trade-tape {
+    display: none !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sitewide-tape-track {
+    animation: none !important;
+  }
+}
+
+/* =================================================================
+   MARKET PAGE -- orderbook + trade-tape responsive layout
+   -----------------------------------------------------------------
+   Desktop (>=1024px): orderbook takes 1fr, trade tape a fixed 220px.
+   Tablet  (640-1023): two rows -- orderbook stacks above the tape.
+   Mobile  (<640px)  : trade tape hidden (motion budget + density).
+   The DataTabs "Trades" tab surfaces the same flow on mobile.
+   ================================================================= */
+.market-orderbook-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+@media (min-width: 1024px) {
+  .market-orderbook-row {
+    grid-template-columns: 1fr 220px;
+    /* `stretch` makes the trade tape grow to match the orderbook's
+       height so the two panels align bottom-to-bottom. Without this the
+       tape renders shorter and the orderbook visually dominates the
+       right gutter. */
+    align-items: stretch;
+  }
+}
+@media (max-width: 639px) {
+  .market-trade-tape {
+    display: none;
+  }
+}
+
+/* Wire the trade tape to fill its grid cell when placed next to the
+   orderbook. The root element claims 100% height so the inner rows
+   container (which uses `flex: 1; overflow: auto`) scrolls instead of
+   hard-capping at 460px. */
+.market-trade-tape {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.market-trade-tape > * {
+  flex: 1;
+  min-height: 0;
+}
+
+/* =================================================================
+   REDUCED MOTION
+   ================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  .glass, .glass-data, .glass-subtle {
+    transition: none;
+  }
+  .glass-elevated {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    --glass-elevated-bg: rgba(29, 27, 26, 0.92);
+    transition: none;
+  }
+  /* Liveliness animations: components also gate via JS on the matchMedia
+     query, but we belt-and-suspenders the CSS side too so any stray
+     inline usage still respects user preference. */
+  .trade-tape-row,
+  .trade-tape-flash {
+    animation: none !important;
+  }
+}
+
+/* =================================================================
+   BROWSER FALLBACK -- no backdrop-filter support
+   ================================================================= */
+@supports not (backdrop-filter: blur(1px)) {
+  :root,
+  [data-theme="dark"] {
+    /* glass, glass-data, glass-subtle already use solid backgrounds in dark mode */
+    --glass-elevated-bg: rgba(29, 27, 26, 0.95);
+    --glass-elevated-blur: 0px;
+  }
+  [data-theme="light"] {
+    --glass-bg: rgba(245, 240, 232, 0.95);
+    --glass-elevated-bg: rgba(245, 240, 232, 0.98);
+    --glass-data-bg: rgba(245, 240, 232, 0.98);
+    --glass-subtle-bg: rgba(237, 232, 223, 0.92);
+  }
+}
+
+/* =================================================================
+   NEWSPAPER / EDITORIAL CLASSES (light mode only)
+   ================================================================= */
+
+/* Light mode: suppress dark solid surfaces on .glass cards, use flat newspaper style */
+[data-theme="light"] .glass {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
+}
+[data-theme="light"] .glass:hover {
+  background: var(--glass-bg-hover);
+  border-color: var(--glass-border-hover);
+  box-shadow: none;
+}
+[data-theme="light"] .glass-data {
+  background: var(--glass-data-bg);
+  border: 1px solid var(--glass-border);
+  box-shadow: none;
+}
+[data-theme="light"] .glass-data:hover {
+  box-shadow: none;
+  border-color: var(--glass-border);
+}
+[data-theme="light"] .glass-subtle {
+  background: var(--glass-subtle-bg);
+  border: 1px solid var(--glass-subtle-border);
+}
+
+/* Navbar in light mode: editorial bar with double rule bottom */
+[data-theme="light"] nav.np-navbar {
+  background: #F5F0E8;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: 3px double #1A1A18;
+  box-shadow: none;
+}
+
+/* Newspaper masthead */
+.np-masthead {
+  display: none;
+}
+[data-theme="light"] .np-masthead {
+  display: block;
+  text-align: center;
+  border-bottom: 3px double #1A1A18;
+  padding: 24px 0 16px;
+  margin-bottom: 32px;
+}
+[data-theme="light"] .np-masthead-brand {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  color: #8A8578;
+  font-family: 'Satoshi', system-ui, sans-serif;
+  margin-bottom: 2px;
+}
+[data-theme="light"] .np-masthead-title {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 38px;
+  font-weight: 700;
+  color: #1A1A18;
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+  margin: 4px 0;
+}
+[data-theme="light"] .np-masthead-date {
+  font-size: 11px;
+  color: #A09888;
+  font-family: 'Satoshi', system-ui, sans-serif;
+  margin-top: 6px;
+}
+
+/* Newspaper market card */
+[data-theme="light"] .np-card {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #D8D2C8;
+  border-radius: 0;
+  padding: 24px 0;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+[data-theme="light"] .np-card:hover {
+  background: rgba(237, 232, 223, 0.4);
+  border-color: #C8C0B4;
+  box-shadow: none;
+}
+
+/* Newspaper card headline */
+[data-theme="light"] .np-card-headline {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.25;
+  color: #1A1A18;
+  letter-spacing: -0.3px;
+}
+
+/* Newspaper pullquote probability */
+[data-theme="light"] .np-pullquote {
+  text-align: center;
+  padding: 12px 0;
+  position: relative;
+}
+[data-theme="light"] .np-pullquote-value {
+  font-size: 56px;
+  font-weight: 700;
+  color: #1A1A18;
+  line-height: 1;
+  font-family: 'Georgia', serif;
+}
+[data-theme="light"] .np-pullquote-label {
+  font-size: 10px;
+  color: #8A8578;
+  margin-top: 4px;
+  font-family: 'Satoshi', system-ui, sans-serif;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* Newspaper price table inline */
+[data-theme="light"] .np-prices {
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  gap: 0;
+  border-top: 2px solid #1A1A18;
+  border-bottom: 1px solid #D8D2C8;
+}
+[data-theme="light"] .np-prices .np-divider {
+  background: #C8C0B4;
+  width: 1px;
+}
+[data-theme="light"] .np-price-cell {
+  padding: 10px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+[data-theme="light"] .np-price-side {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: 'Satoshi', system-ui, sans-serif;
+}
+[data-theme="light"] .np-price-value {
+  font-family: 'Georgia', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #1A1A18;
+}
+
+/* Newspaper meta bar */
+[data-theme="light"] .np-meta-bar {
+  display: flex;
+  gap: 0;
+  padding: 8px 0 0;
+  font-size: 11px;
+  color: #8A8578;
+  font-family: 'Satoshi', system-ui, sans-serif;
+}
+[data-theme="light"] .np-meta-item {
+  flex: 1;
+  text-align: center;
+  position: relative;
+}
+[data-theme="light"] .np-meta-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 2px;
+  bottom: 2px;
+  width: 1px;
+  background: #C8C0B4;
+}
+[data-theme="light"] .np-meta-label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #A09888;
+  display: block;
+  margin-bottom: 2px;
+}
+[data-theme="light"] .np-meta-value {
+  font-weight: 600;
+  color: #1A1A18;
+  font-size: 11px;
+}
+
+/* Two-column card grid for newspaper */
+[data-theme="light"] .np-grid {
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  gap: 0;
+  max-width: 100%;
+}
+[data-theme="light"] .np-grid-divider {
+  background: #C8C0B4;
+  width: 1px;
+}
+@media (max-width: 800px) {
+  [data-theme="light"] .np-grid {
+    grid-template-columns: 1fr;
+  }
+  [data-theme="light"] .np-grid-divider {
+    display: none;
+  }
+}
+
+/* Section sub-headers (newspaper style) */
+[data-theme="light"] .np-section-header {
+  font-family: 'Satoshi', system-ui, sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #8A8578;
+  border-bottom: 1px solid #D8D2C8;
+  padding-bottom: 8px;
+  margin-bottom: 0;
+}
+
+/* Create market button -- newspaper style */
+[data-theme="light"] .np-btn-create {
+  background: transparent;
+  color: #1A1A18;
+  border: 1px solid #1A1A18;
+  font-family: 'Satoshi', system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 7px 16px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+[data-theme="light"] .np-btn-create:hover {
+  background: #1A1A18;
+  color: #F5F0E8;
+}
+
+/* Edition tag (replacing "Live" badge in newspaper mode) */
+[data-theme="light"] .np-edition-tag {
+  font-family: 'Satoshi', system-ui, sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #8A8578;
+  border: 1px solid #D8D2C8;
+  padding: 2px 8px;
+  display: inline-block;
+}
+
+/* =================================================================
+   PORTFOLIO PAGE
+   ================================================================= */
+
+/* Skeleton loading animation */
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+.skeleton {
+  background: var(--bg-elevated);
+  border-radius: var(--radius-sm);
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+/* P&L value pill */
+.pnl-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-weight: 100;
+}
+.pnl-pill.positive {
+  color: var(--pnl-positive);
+  background: var(--pnl-positive-bg);
+}
+.pnl-pill.negative {
+  color: var(--pnl-negative);
+  background: var(--pnl-negative-bg);
+}
+.pnl-pill.zero {
+  color: var(--pnl-zero);
+  background: transparent;
+}
+
+/* Staggered row entrance */
+@keyframes row-enter {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton { animation: none; opacity: 0.6; }
+  .row-animate { animation: none !important; }
+}
+
+/* Portfolio chart end-dot pulse */
+@keyframes chart-dot-pulse {
+  0%, 100% { box-shadow: 0 0 0 0px currentColor; opacity: 0.4; }
+  50% { box-shadow: 0 0 0 4px currentColor; opacity: 0; }
+}
+
+/* Portfolio responsive table/card toggle */
+.portfolio-table-desktop {
+  display: block;
+  overflow-x: auto;
+}
+.portfolio-table-mobile {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .portfolio-table-desktop {
+    display: none;
+  }
+  .portfolio-table-mobile {
+    display: block;
+  }
+}
+
+/* Portfolio secondary stats responsive grid */
+.portfolio-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+}
+@media (max-width: 768px) {
+  .portfolio-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 480px) {
+  .portfolio-stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Newspaper stat grid responsive */
+.portfolio-np-stat-row {
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr 1px 1fr;
+}
+@media (max-width: 768px) {
+  .portfolio-np-stat-row {
+    grid-template-columns: 1fr 1px 1fr;
+  }
+  .portfolio-np-stat-row .np-stat-hide-tablet {
+    display: none;
+  }
+}
+@media (max-width: 480px) {
+  .portfolio-np-stat-row {
+    grid-template-columns: 1fr;
+  }
+  .portfolio-np-stat-row .np-stat-divider {
+    display: none;
+  }
+}
+
+/* Portfolio hero card responsive */
+.portfolio-hero-value {
+  font-size: 40px;
+}
+@media (max-width: 480px) {
+  .portfolio-hero-value {
+    font-size: 28px !important;
+  }
+}
+
+/* Portfolio page container responsive */
+.portfolio-container {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 40px 32px 80px;
+}
+[data-theme="light"] .portfolio-container {
+  max-width: 960px;
+  padding: 32px 24px 80px;
+}
+@media (max-width: 768px) {
+  .portfolio-container {
+    padding: 24px 16px 60px;
+  }
+}
+
+/* Chart responsive height */
+.portfolio-chart {
+  height: 280px;
+}
+[data-theme="light"] .portfolio-chart {
+  height: 260px;
+}
+@media (max-width: 768px) {
+  .portfolio-chart {
+    height: 240px;
+  }
+}
+@media (max-width: 480px) {
+  .portfolio-chart {
+    height: 200px;
+  }
+}
+
+/* =================================================================
+   ORDERBOOK -- hide the share-count subscript on narrow viewports
+   so Price + $ Notional still fit without wrapping.
+   ================================================================= */
+.duel-row-shares {
+  display: inline;
+}
+@media (max-width: 480px) {
+  .duel-row-shares {
+    display: none;
+  }
+}
+
+/* =================================================================
+   ORDERBOOK DEPTH BAR -- outward mirror alignment (desktop) with
+   mobile fallback to aligned-right-anchored.
+   See docs/design/orderbook-alignment-2026-04-19.md for rationale.
+   -----------------------------------------------------------------
+   Desktop (>=640px):
+     YES book: bars anchored right, grow left  (`right: 0`)
+     NO book:  bars anchored left,  grow right (`left: 0`)
+   Mobile (<640px): the YES and NO panels stack vertically so there
+   is no centre fulcrum. Both books render with the right-anchored
+   growth direction so they read consistently top-to-bottom.
+   ================================================================= */
+.depth-bar--side-yes { right: 0; }
+.depth-bar--side-no  { left: 0; }
+@media (max-width: 639px) {
+  .depth-bar--side-no {
+    /* Flip NO bars to match YES anchor/direction when stacked.
+       Because CSS custom properties can't directly re-template a
+       `linear-gradient(to left/to right, ...)`, we also flip the
+       gradient via a horizontal scale transform. `transform-origin:
+       center` keeps it in place; the visual result is identical to
+       `to left, max, min`. */
+    left: auto;
+    right: 0;
+    transform: scaleX(-1);
+  }
+}
+
+/* =================================================================
+   ANIMATIONS
+   ================================================================= */
+
+/* Pulse animation for the LIVE chart indicator dot */
+@keyframes caster-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* =================================================================
+   TESTNET BANNER -- responsive copy swap
+   Long copy on >=480px, compact copy on narrower phones so it never
+   wraps and overflows the 28px stripe. Kept here so the component
+   stays inline-style only and we don't pull in tailwind utility classes.
+   ================================================================= */
+.testnet-banner-long  { display: inline; }
+.testnet-banner-short { display: none; }
+@media (max-width: 479px) {
+  .testnet-banner-long  { display: none; }
+  .testnet-banner-short { display: inline; }
+}
+

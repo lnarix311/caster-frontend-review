@@ -1,0 +1,5 @@
+# Local dev fixtures for the /status page. In production, nginx serves
+# /status/*.json from a dedicated location block. These files exist so
+# `npm run dev` has something to render against.
+devnet.json
+testnet.json

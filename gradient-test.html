@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Background Gradient Options</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Satoshi', system-ui, sans-serif; color: #EBE8E4; }
+
+  .container { display: flex; height: 100vh; }
+  .panel { flex: 1; position: relative; padding: 32px 24px; overflow-y: auto; }
+  .panel + .panel { border-left: 1px solid #2A2826; }
+
+  /* Option A — Linear gradient */
+  .panel-a { background: linear-gradient(to bottom, #1A1614 0%, #100D0B 35%); }
+
+  /* Option B — Radial glow */
+  .panel-b { background: radial-gradient(ellipse at 50% 0%, #1E1A17 0%, #100D0B 50%); }
+
+  /* Option C — Accent-tinted glow */
+  .panel-c { background: radial-gradient(ellipse at 50% 0%, rgba(255,107,53,0.04) 0%, transparent 40%), #100D0B; }
+
+  .label {
+    position: sticky; top: 0; z-index: 2;
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;
+    color: #9B9790; margin-bottom: 24px; padding: 8px 0;
+    background: inherit;
+  }
+
+  /* Mock UI elements */
+  .card {
+    background: #141312; border-radius: 12px; padding: 16px; margin-bottom: 12px;
+  }
+  .card-title { font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+  .card-sub { font-size: 12px; color: #9B9790; }
+
+  .header-bar {
+    background: #141312; border-radius: 12px; padding: 14px 16px; margin-bottom: 16px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .header-title { font-size: 16px; font-weight: 700; }
+  .header-prob { font-size: 24px; font-weight: 700; color: #22C55E; }
+
+  .ob-row {
+    display: flex; justify-content: space-between; padding: 4px 12px;
+    font-size: 13px; position: relative;
+  }
+  .ob-row + .ob-row { margin-top: 1px; }
+  .ob-bar {
+    position: absolute; top: 0; bottom: 0; right: 0; opacity: 0.08; border-radius: 2px;
+  }
+  .ob-price { position: relative; z-index: 1; font-weight: 500; }
+  .ob-qty { position: relative; z-index: 1; color: #9B9790; }
+
+  .mid-bar {
+    padding: 8px 12px; margin: 6px 0; border-radius: 8px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 14px; font-weight: 700;
+  }
+  .mid-bar.yes { background: rgba(34,197,94,0.12); color: #22C55E; }
+  .spread-label { font-size: 11px; color: #706C67; font-weight: 400; }
+
+  .btn {
+    width: 100%; padding: 10px; border: none; border-radius: 8px;
+    font-size: 13px; font-weight: 600; cursor: pointer; margin-top: 12px;
+  }
+  .btn-yes { background: #22C55E; color: #000; }
+  .btn-no { background: #EF4444; color: #fff; }
+
+  .section-label { font-size: 11px; color: #706C67; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px; font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Option A -->
+  <div class="panel panel-a">
+    <div class="label">A — Linear Gradient</div>
+
+    <div class="header-bar">
+      <div>
+        <div class="header-title">Will Iran regime fall by June 30?</div>
+        <div class="card-sub">Vol $12,483</div>
+      </div>
+      <div class="header-prob">62.0%</div>
+    </div>
+
+    <div class="card">
+      <div class="section-label">Price &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; Qty</div>
+      <div class="ob-row"><div class="ob-bar" style="width:40%;background:#EF4444;"></div><span class="ob-price" style="color:#EF4444;">0.680</span><span class="ob-qty">1,240</span></div>
+      <div class="ob-row"><div class="ob-bar" style="width:55%;background:#EF4444;"></div><span class="ob-price" style="color:#EF4444;">0.670</span><span class="ob-qty">2,100</span></div>
+      <div class="ob-row"><div class="ob-bar" style="width:30%;background:#EF4444;"></div><span class="ob-price" style="color:#EF4444;">0.650</span><span class="ob-qty">890</span></div>
+      <div class="ob-row"><div class="ob-bar" style="width:70%;background:#EF4444;"></div><span class="ob-price" style="color:#EF4444;">0.640</span><span class="ob-qty">3,400</span></div>
+
+      <div class="mid-bar yes"><span>$0.62</span><span class="spread-label">spread $0.010</span></div>
+
+      <div class="ob-row"><div class="ob-bar" style="width:60%;background:#22C55E;"></div><span class="ob-price" style="color:#22C55E;">0.620</span><span class="ob-qty">2,800</span></div>
+      <div class="ob-row"><div class="ob-bar" style="width:45%;background:#22C55E;"></div><span class="ob-price" style="color:#22C55E;">0.610</span><span class="ob-qty">1,600</span></div>
+      <div class="ob-row"><div class="ob-bar" style="width:80%;background:#22C55E;"></div><span class="ob-price" style="color:#22C55E;">0.600</span><span class="ob-qty">4,200</span></div>
+      <div class="ob-row"><div class="ob-bar" style="width:35%;background:#22C55E;"></div><span class="ob-price" style="color:#22C55E;">0.590</span><span class="ob-qty">1,100</span></div>
+
+      <button class="btn btn-yes">Buy Yes</button>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Recent Trades</div>
+      <div class="card-sub">YES 500 @ 0.620 · 2m ago</div>
+      <div class="card-sub">NO 200 @ 0.380 · 5m ago</div>
+      <div class="card-sub">YES 1,200 @ 0.615 · 8m ago</div>
+    </div>
+  </div>
+
+  <!-- Option B -->
+  <div class="panel panel-b">
+    <div class="label">B — Radial Glow</div>
+
+    <div class="header-bar">
+      <div>
+        <div class="header-title">Will Iran regime fall by June 30?</div>
+        <div class="card-sub">Vol $12,483</div>
+      </div>
+      <div class="header-prob">62.0%</div>
+    </div>
+
+    <div class="card">
+      <div class="section-label">Price &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; Qty</div>
+      <div class="ob-row"><div class="ob-bar" style="width:40%;background:#EF4444;"></div><span class="ob-price" style="color:#EF4444;">0.680</span><span class="ob-qty">1,240</span></div>
+      <div class="ob-row"><div class="ob-bar" style="width:55%;background:#EF4444;"></div><span class="ob-price" style="color:#EF4444;">0.670</span><span class="ob-qty">2,100</span></div>
+      <div class="ob-row"><div class="ob-bar" style="width:30%;background:#EF4444;"></div><span class="ob-price" style="color:#EF4444;">0.650</span><span class="ob-qty">890</span></div>
+      <div class="ob-row"><div class="ob-bar" style="width:70%;background:#EF4444;"></div><span class="ob-price" style="color:#EF4444;">0.640</span><span class="ob-qty">3,400</span></div>
+
+      <div class="mid-bar yes"><span>$0.62</span><span class="spread-label">spread $0.010</span></div>
+
+      <div class="ob-row"><div class="ob-bar" style="width:60%;background:#22C55E;"></div><span class="ob-price" style="color:#22C55E;">0.620</span><span class="ob-qty">2,800</span></div>
+      <div class="ob-row"><div class="ob-bar" style="width:45%;background:#22C55E;"></div><span class="ob-price" style="color:#22C55E;">0.610</span><span class="ob-qty">1,600</span></div>
+      <div class="ob-row"><div class="ob-bar" style="width:80%;background:#22C55E;"></div><span class="ob-price" style="color:#22C55E;">0.600</span><span class="ob-qty">4,200</span></div>
+      <div class="ob-row"><div class="ob-bar" style="width:35%;background:#22C55E;"></div><span class="ob-price" style="color:#22C55E;">0.590</span><span class="ob-qty">1,100</span></div>
+
+      <button class="btn btn-yes">Buy Yes</button>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Recent Trades</div>
+      <div class="card-sub">YES 500 @ 0.620 · 2m ago</div>
+      <div class="card-sub">NO 200 @ 0.380 · 5m ago</div>
+      <div class="card-sub">YES 1,200 @ 0.615 · 8m ago</div>
+    </div>
+  </div>
+
+  <!-- Option C -->
+  <div class="panel panel-c">
+    <div class="label">C — Accent-Tinted Glow</div>
+
+    <div class="header-bar">
+      <div>
+        <div class="header-title">Will Iran regime fall by June 30?</div>
+        <div class="card-sub">Vol $12,483</div>
+      </div>
+      <div class="header-prob">62.0%</div>
+    </div>
+
+    <div class="card">
+      <div class="section-label">Price &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; Qty</div>
+      <div class="ob-row"><div class="ob-bar" style="width:40%;background:#EF4444;"></div><span class="ob-price" style="color:#EF4444;">0.680</span><span class="ob-qty">1,240</span></div>
+      <div class="ob-row"><div class="ob-bar" style="width:55%;background:#EF4444;"></div><span class="ob-price" style="color:#EF4444;">0.670</span><span class="ob-qty">2,100</span></div>
+      <div class="ob-row"><div class="ob-bar" style="width:30%;background:#EF4444;"></div><span class="ob-price" style="color:#EF4444;">0.650</span><span class="ob-qty">890</span></div>
+      <div class="ob-row"><div class="ob-bar" style="width:70%;background:#EF4444;"></div><span class="ob-price" style="color:#EF4444;">0.640</span><span class="ob-qty">3,400</span></div>
+
+      <div class="mid-bar yes"><span>$0.62</span><span class="spread-label">spread $0.010</span></div>
+
+      <div class="ob-row"><div class="ob-bar" style="width:60%;background:#22C55E;"></div><span class="ob-price" style="color:#22C55E;">0.620</span><span class="ob-qty">2,800</span></div>
+      <div class="ob-row"><div class="ob-bar" style="width:45%;background:#22C55E;"></div><span class="ob-price" style="color:#22C55E;">0.610</span><span class="ob-qty">1,600</span></div>
+      <div class="ob-row"><div class="ob-bar" style="width:80%;background:#22C55E;"></div><span class="ob-price" style="color:#22C55E;">0.600</span><span class="ob-qty">4,200</span></div>
+      <div class="ob-row"><div class="ob-bar" style="width:35%;background:#22C55E;"></div><span class="ob-price" style="color:#22C55E;">0.590</span><span class="ob-qty">1,100</span></div>
+
+      <button class="btn btn-yes">Buy Yes</button>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Recent Trades</div>
+      <div class="card-sub">YES 500 @ 0.620 · 2m ago</div>
+      <div class="card-sub">NO 200 @ 0.380 · 5m ago</div>
+      <div class="card-sub">YES 1,200 @ 0.615 · 8m ago</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

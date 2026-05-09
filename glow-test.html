@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Winning Orderbook Glow Options</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Satoshi', system-ui, sans-serif; color: #EBE8E4; background: #100D0B; }
+
+  .container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; padding: 24px; height: 100vh; }
+
+  .option-label {
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;
+    color: #706C67; margin-bottom: 12px; text-align: center;
+  }
+
+  .pair { display: flex; gap: 8px; flex: 1; }
+
+  .card {
+    flex: 1; background: #141312; border-radius: 14px; display: flex; flex-direction: column;
+    overflow: hidden; position: relative;
+  }
+
+  /* Static accent bar (loser) */
+  .accent { height: 3px; flex-shrink: 0; }
+  .accent.yes { background: #22C55E; }
+  .accent.no { background: #EF4444; }
+
+  .card-header {
+    flex-shrink: 0; padding: 10px 12px; display: flex; justify-content: space-between; align-items: center;
+  }
+  .side-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+  .side-label.yes { color: #22C55E; }
+  .side-label.no { color: #EF4444; }
+  .price { font-size: 22px; font-weight: 700; line-height: 1; }
+  .price.yes { color: #22C55E; }
+  .price.no { color: #EF4444; }
+
+  .col-header {
+    flex-shrink: 0; font-size: 11px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.8px; color: #706C67; padding: 4px 10px;
+    display: flex; justify-content: space-between;
+  }
+
+  .ob-row {
+    display: flex; justify-content: space-between; padding: 4px 10px;
+    font-size: 13px; position: relative; line-height: 1.2;
+  }
+  .ob-bar { position: absolute; top: 0; bottom: 0; right: 0; opacity: 0.08; }
+  .ob-price { position: relative; z-index: 1; font-weight: 500; }
+  .ob-qty { position: relative; z-index: 1; color: #9B9790; }
+
+  .mid-bar {
+    padding: 8px 10px; margin: 4px 6px; border-radius: 8px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 14px; font-weight: 700;
+  }
+  .mid-bar.yes { background: rgba(34,197,94,0.12); color: #22C55E; }
+  .mid-bar.no { background: rgba(239,68,68,0.12); color: #EF4444; }
+  .spread { font-size: 11px; color: #706C67; font-weight: 400; }
+
+  /* ============================================================
+     A — FLOWING SHIMMER
+     ============================================================ */
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  .shimmer-yes .accent.yes {
+    background: linear-gradient(90deg, #22C55E 0%, #22C55E 30%, #6EE7A0 50%, #22C55E 70%, #22C55E 100%);
+    background-size: 200% 100%;
+    animation: shimmer 2.5s ease-in-out infinite;
+  }
+
+  .shimmer-no .accent.no {
+    background: linear-gradient(90deg, #EF4444 0%, #EF4444 30%, #FCA5A5 50%, #EF4444 70%, #EF4444 100%);
+    background-size: 200% 100%;
+    animation: shimmer 2.5s ease-in-out infinite;
+  }
+
+  /* ============================================================
+     B — BREATHING GLOW
+     ============================================================ */
+  @keyframes breathe-yes {
+    0%, 100% { box-shadow: 0 0 8px rgba(34,197,94,0.15), 0 0 20px rgba(34,197,94,0.05); }
+    50% { box-shadow: 0 0 14px rgba(34,197,94,0.35), 0 0 35px rgba(34,197,94,0.12); }
+  }
+  @keyframes breathe-no {
+    0%, 100% { box-shadow: 0 0 8px rgba(239,68,68,0.15), 0 0 20px rgba(239,68,68,0.05); }
+    50% { box-shadow: 0 0 14px rgba(239,68,68,0.35), 0 0 35px rgba(239,68,68,0.12); }
+  }
+
+  .breathe-yes .accent.yes {
+    animation: breathe-yes 3s ease-in-out infinite;
+  }
+  .breathe-no .accent.no {
+    animation: breathe-no 3s ease-in-out infinite;
+  }
+
+  /* ============================================================
+     C — SHIMMER + GLOW COMBO
+     ============================================================ */
+  .combo-yes .accent.yes {
+    background: linear-gradient(90deg, #22C55E 0%, #22C55E 30%, #6EE7A0 50%, #22C55E 70%, #22C55E 100%);
+    background-size: 200% 100%;
+    animation: shimmer 2.5s ease-in-out infinite, breathe-yes 3s ease-in-out infinite;
+  }
+  .combo-no .accent.no {
+    background: linear-gradient(90deg, #EF4444 0%, #EF4444 30%, #FCA5A5 50%, #EF4444 70%, #EF4444 100%);
+    background-size: 200% 100%;
+    animation: shimmer 2.5s ease-in-out infinite, breathe-no 3s ease-in-out infinite;
+  }
+
+  /* ============================================================
+     D — EXPANDING GLOW BAR
+     ============================================================ */
+  @keyframes expand-glow-yes {
+    0%, 100% { height: 3px; box-shadow: 0 2px 12px rgba(34,197,94,0.2), 0 4px 24px rgba(34,197,94,0.08); }
+    50% { height: 4px; box-shadow: 0 2px 16px rgba(34,197,94,0.35), 0 4px 32px rgba(34,197,94,0.15); }
+  }
+  @keyframes expand-glow-no {
+    0%, 100% { height: 3px; box-shadow: 0 2px 12px rgba(239,68,68,0.2), 0 4px 24px rgba(239,68,68,0.08); }
+    50% { height: 4px; box-shadow: 0 2px 16px rgba(239,68,68,0.35), 0 4px 32px rgba(239,68,68,0.15); }
+  }
+
+  .expand-yes .accent.yes {
+    animation: expand-glow-yes 3s ease-in-out infinite;
+  }
+  .expand-no .accent.no {
+    animation: expand-glow-no 3s ease-in-out infinite;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- A — Shimmer -->
+  <div style="display:flex;flex-direction:column;">
+    <div class="option-label">A — Flowing Shimmer</div>
+    <div class="pair">
+      <!-- YES winning -->
+      <div class="card shimmer-yes">
+        <div class="accent yes"></div>
+        <div class="card-header"><span class="side-label yes">Yes</span><span class="price yes">$0.62</span></div>
+        <div class="col-header"><span>Price</span><span>Qty</span></div>
+        <div class="ob-row"><div class="ob-bar" style="width:40%;background:#EF4444;"></div><span class="ob-price" style="color:#EF4444;">0.650</span><span class="ob-qty">1,240</span></div>
+        <div class="ob-row"><div class="ob-bar" style="width:55%;background:#EF4444;"></div><span class="ob-price" style="color:#EF4444;">0.640</span><span class="ob-qty">2,100</span></div>
+        <div class="mid-bar yes"><span>$0.62</span><span class="spread">spread $0.010</span></div>
+        <div class="ob-row"><div class="ob-bar" style="width:60%;background:#22C55E;"></div><span class="ob-price" style="color:#22C55E;">0.620</span><span class="ob-qty">2,800</span></div>
+        <div class="ob-row"><div class="ob-bar" style="width:45%;background:#22C55E;"></div><span class="ob-price" style="color:#22C55E;">0.610</span><span class="ob-qty">1,600</span></div>
+      </div>
+      <!-- NO losing (static) -->
+      <div class="card">
+        <div class="accent no"></div>
+        <div class="card-header"><span class="side-label no">No</span><span class="price no">$0.38</span></div>
+        <div class="col-header"><span>Price</span><span>Qty</span></div>
+        <div class="ob-row"><div class="ob-bar" style="width:35%;background:#22C55E;"></div><span class="ob-price" style="color:#22C55E;">0.400</span><span class="ob-qty">890</span></div>
+        <div class="ob-row"><div class="ob-bar" style="width:50%;background:#22C55E;"></div><span class="ob-price" style="color:#22C55E;">0.390</span><span class="ob-qty">1,900</span></div>
+        <div class="mid-bar no"><span>$0.38</span><span class="spread">spread $0.010</span></div>
+        <div class="ob-row"><div class="ob-bar" style="width:65%;background:#EF4444;"></div><span class="ob-price" style="color:#EF4444;">0.380</span><span class="ob-qty">3,200</span></div>
+        <div class="ob-row"><div class="ob-bar" style="width:40%;background:#EF4444;"></div><span class="ob-price" style="color:#EF4444;">0.370</span><span class="ob-qty">1,400</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- B — Breathing Glow -->
+  <div style="display:flex;flex-direction:column;">
+    <div class="option-label">B — Breathing Glow</div>
+    <div class="pair">
+      <div class="card breathe-yes">
+        <div class="accent yes"></div>
+        <div class="card-header"><span class="side-label yes">Yes</span><span class="price yes">$0.62</span></div>
+        <div class="col-header"><span>Price</span><span>Qty</span></div>
+        <div class="ob-row"><div class="ob-bar" style="width:40%;background:#EF4444;"></div><span class="ob-price" style="color:#EF4444;">0.650</span><span class="ob-qty">1,240</span></div>
+        <div class="ob-row"><div class="ob-bar" style="width:55%;background:#EF4444;"></div><span class="ob-price" style="color:#EF4444;">0.640</span><span class="ob-qty">2,100</span></div>
+        <div class="mid-bar yes"><span>$0.62</span><span class="spread">spread $0.010</span></div>
+        <div class="ob-row"><div class="ob-bar" style="width:60%;background:#22C55E;"></div><span class="ob-price" style="color:#22C55E;">0.620</span><span class="ob-qty">2,800</span></div>
+        <div class="ob-row"><div class="ob-bar" style="width:45%;background:#22C55E;"></div><span class="ob-price" style="color:#22C55E;">0.610</span><span class="ob-qty">1,600</span></div>
+      </div>
+      <div class="card">
+        <div class="accent no"></div>
+        <div class="card-header"><span class="side-label no">No</span><span class="price no">$0.38</span></div>
+        <div class="col-header"><span>Price</span><span>Qty</span></div>
+        <div class="ob-row"><div class="ob-bar" style="width:35%;background:#22C55E;"></div><span class="ob-price" style="color:#22C55E;">0.400</span><span class="ob-qty">890</span></div>
+        <div class="ob-row"><div class="ob-bar" style="width:50%;background:#22C55E;"></div><span class="ob-price" style="color:#22C55E;">0.390</span><span class="ob-qty">1,900</span></div>
+        <div class="mid-bar no"><span>$0.38</span><span class="spread">spread $0.010</span></div>
+        <div class="ob-row"><div class="ob-bar" style="width:65%;background:#EF4444;"></div><span class="ob-price" style="color:#EF4444;">0.380</span><span class="ob-qty">3,200</span></div>
+        <div class="ob-row"><div class="ob-bar" style="width:40%;background:#EF4444;"></div><span class="ob-price" style="color:#EF4444;">0.370</span><span class="ob-qty">1,400</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- C — Shimmer + Glow -->
+  <div style="display:flex;flex-direction:column;">
+    <div class="option-label">C — Shimmer + Glow</div>
+    <div class="pair">
+      <div class="card combo-yes">
+        <div class="accent yes"></div>
+        <div class="card-header"><span class="side-label yes">Yes</span><span class="price yes">$0.62</span></div>
+        <div class="col-header"><span>Price</span><span>Qty</span></div>
+        <div class="ob-row"><div class="ob-bar" style="width:40%;background:#EF4444;"></div><span class="ob-price" style="color:#EF4444;">0.650</span><span class="ob-qty">1,240</span></div>
+        <div class="ob-row"><div class="ob-bar" style="width:55%;background:#EF4444;"></div><span class="ob-price" style="color:#EF4444;">0.640</span><span class="ob-qty">2,100</span></div>
+        <div class="mid-bar yes"><span>$0.62</span><span class="spread">spread $0.010</span></div>
+        <div class="ob-row"><div class="ob-bar" style="width:60%;background:#22C55E;"></div><span class="ob-price" style="color:#22C55E;">0.620</span><span class="ob-qty">2,800</span></div>
+        <div class="ob-row"><div class="ob-bar" style="width:45%;background:#22C55E;"></div><span class="ob-price" style="color:#22C55E;">0.610</span><span class="ob-qty">1,600</span></div>
+      </div>
+      <div class="card">
+        <div class="accent no"></div>
+        <div class="card-header"><span class="side-label no">No</span><span class="price no">$0.38</span></div>
+        <div class="col-header"><span>Price</span><span>Qty</span></div>
+        <div class="ob-row"><div class="ob-bar" style="width:35%;background:#22C55E;"></div><span class="ob-price" style="color:#22C55E;">0.400</span><span class="ob-qty">890</span></div>
+        <div class="ob-row"><div class="ob-bar" style="width:50%;background:#22C55E;"></div><span class="ob-price" style="color:#22C55E;">0.390</span><span class="ob-qty">1,900</span></div>
+        <div class="mid-bar no"><span>$0.38</span><span class="spread">spread $0.010</span></div>
+        <div class="ob-row"><div class="ob-bar" style="width:65%;background:#EF4444;"></div><span class="ob-price" style="color:#EF4444;">0.380</span><span class="ob-qty">3,200</span></div>
+        <div class="ob-row"><div class="ob-bar" style="width:40%;background:#EF4444;"></div><span class="ob-price" style="color:#EF4444;">0.370</span><span class="ob-qty">1,400</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- D — Expanding Glow Bar -->
+  <div style="display:flex;flex-direction:column;">
+    <div class="option-label">D — Expanding Glow Bar</div>
+    <div class="pair">
+      <div class="card expand-yes">
+        <div class="accent yes"></div>
+        <div class="card-header"><span class="side-label yes">Yes</span><span class="price yes">$0.62</span></div>
+        <div class="col-header"><span>Price</span><span>Qty</span></div>
+        <div class="ob-row"><div class="ob-bar" style="width:40%;background:#EF4444;"></div><span class="ob-price" style="color:#EF4444;">0.650</span><span class="ob-qty">1,240</span></div>
+        <div class="ob-row"><div class="ob-bar" style="width:55%;background:#EF4444;"></div><span class="ob-price" style="color:#EF4444;">0.640</span><span class="ob-qty">2,100</span></div>
+        <div class="mid-bar yes"><span>$0.62</span><span class="spread">spread $0.010</span></div>
+        <div class="ob-row"><div class="ob-bar" style="width:60%;background:#22C55E;"></div><span class="ob-price" style="color:#22C55E;">0.620</span><span class="ob-qty">2,800</span></div>
+        <div class="ob-row"><div class="ob-bar" style="width:45%;background:#22C55E;"></div><span class="ob-price" style="color:#22C55E;">0.610</span><span class="ob-qty">1,600</span></div>
+      </div>
+      <div class="card">
+        <div class="accent no"></div>
+        <div class="card-header"><span class="side-label no">No</span><span class="price no">$0.38</span></div>
+        <div class="col-header"><span>Price</span><span>Qty</span></div>
+        <div class="ob-row"><div class="ob-bar" style="width:35%;background:#22C55E;"></div><span class="ob-price" style="color:#22C55E;">0.400</span><span class="ob-qty">890</span></div>
+        <div class="ob-row"><div class="ob-bar" style="width:50%;background:#22C55E;"></div><span class="ob-price" style="color:#22C55E;">0.390</span><span class="ob-qty">1,900</span></div>
+        <div class="mid-bar no"><span>$0.38</span><span class="spread">spread $0.010</span></div>
+        <div class="ob-row"><div class="ob-bar" style="width:65%;background:#EF4444;"></div><span class="ob-price" style="color:#EF4444;">0.380</span><span class="ob-qty">3,200</span></div>
+        <div class="ob-row"><div class="ob-bar" style="width:40%;background:#EF4444;"></div><span class="ob-price" style="color:#EF4444;">0.370</span><span class="ob-qty">1,400</span></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
