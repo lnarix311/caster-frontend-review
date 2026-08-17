@@ -28,8 +28,6 @@ Built solo with AI coding tools (Claude Code, Codex), using a structured agent w
 
 The hard part was never generation — it was **verification**. Most of the workflow above exists to catch plausible-looking output before it reaches the running app.
 
-> **TODO before publishing:** replace this line with one concrete example — a stage that failed, what it cost, and what you changed in the workflow as a result. That story is worth more than the list above.
-
 ## Project structure
 
 ```
